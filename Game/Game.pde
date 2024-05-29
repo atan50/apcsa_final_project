@@ -1,5 +1,5 @@
 int days, totalDays, level;
-//Garden garden;
+Garden garden;
 //Objective objectives;
 //Objective currObj;
 String activeScreen;
@@ -20,6 +20,13 @@ void draw(){
     
     if(){ //nextDay button pressed
       Flower.update(Garden.garden);
+    }
+  }
+  if(activeScreen.equals("Objective")){
+    
+    
+    if(){ //nextDay button pressed
+      Flower.update(currObj.garden);
     }
   }
 }

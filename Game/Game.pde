@@ -1,6 +1,7 @@
 int days, totalDays, level;
 //Garden garden;
 //Objective objectives;
+//Objective currObj;
 String activeScreen;
 int waterPoints, points, targetPoints;
 
@@ -21,4 +22,13 @@ void draw(){
       Flower.update(Garden.garden);
     }
   }
+}
+
+void newPoints(){
+  for(Flower f : currObj.clientGarden){
+    if(f.isAlive){
+      points += f.value;
+    }
+  }
+  waterPoints += level * 2 / 3 + 2;
 }

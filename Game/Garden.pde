@@ -1,3 +1,4 @@
+/*
 public class Garden{
   
   static Flower[][] garden;
@@ -9,3 +10,4 @@ public class Garden{
   }
   
 }
+*/

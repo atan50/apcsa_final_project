@@ -28,7 +28,7 @@ class Flower {
     }
     return true;
   }
-  
+  /*
   public static void update(Flower[][] garden){
     for(Flower f : garden){
       if(f.isAlive && !f.checkLife()){
@@ -37,5 +37,6 @@ class Flower {
       }
     }
   }
+  */
   
 }

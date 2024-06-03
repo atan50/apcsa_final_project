@@ -25,7 +25,7 @@ void draw(){
     Garden garden = new Garden();
     garden.screen();
     shopButton(width, height);
-    if(overShop(100)){
+    if(shopPressed()){
       activeScreen = "Shop";
     }
     /*
@@ -41,7 +41,7 @@ void draw(){
     }*/
   }
   if(activeScreen.equals("Shop")){
-    
+    background(#59f0c7);
   }
   
 }
@@ -88,6 +88,9 @@ boolean startPressed(){
 
 void shopButton(int x, int y){
   fill(#fcba03);
+  if(overShop(100)){
+    fill(#fcca3f);
+  }
   stroke(#d19c08);
   strokeWeight(5);
   ellipse(x-100, y-90, 100, 100);
@@ -101,7 +104,14 @@ boolean overShop(int diameter){
   float disY = height-90 - mouseY;
   if(sqrt(sq(disX) + sq(disY)) < diameter/2 ) {
     return true;
-  } else {
+  }else{
     return false;
   }
+}
+
+boolean shopPressed(){
+  if(keyPressed && overShop(100)){
+    return true;
+  }
+  return false;
 }

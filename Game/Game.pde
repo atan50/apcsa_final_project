@@ -24,6 +24,7 @@ void draw(){
   if(activeScreen.equals("Garden")){
     Garden garden = new Garden();
     garden.screen();
+    displayCurrency();
     shopButton(width, height);
     if(shopPressed()){
       activeScreen = "Shop";
@@ -84,6 +85,17 @@ boolean startPressed(){
     }
   }
   return false;
+}
+
+void displayCurrency(){
+  fill(#c5faf0);
+  stroke(#3bedcd);
+  strokeWeight(10);
+  rect(-30, -30, 180, 150, 25);
+  fill(#0a0a0a);
+  textSize(20);
+  text("Water: "+waterPoints, 30, 40);
+  text("Coins: "+points, 30, 80);
 }
 
 void shopButton(int x, int y){

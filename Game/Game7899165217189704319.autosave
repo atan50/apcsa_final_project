@@ -6,7 +6,7 @@ String activeScreen;
 int waterPoints, points, targetPoints;
 
 void setup(){
-  size(1000,600);
+  size(900,600);
   waterPoints = 3;
   targetPoints = 50;
   activeScreen = "Start";
@@ -47,6 +47,17 @@ void draw(){
   
 }
 
+/*
+void newPoints(){
+  for(Flower f : currObj.clientGarden){
+    if(f.isAlive){
+      points += f.value;
+    }
+  }
+  waterPoints += level * 2 / 3 + 2;
+}
+*/
+
 void startButton(int x, int y){
   fill(#fcba03);
   if(overStart()){
@@ -54,10 +65,10 @@ void startButton(int x, int y){
   }
   stroke(#d19c08);
   strokeWeight(5);
-  rect(x-250,y-50,500,100,25);
+  rect(x-150,y-30,300,60,25);
   fill(#4a3807);
-  textSize(60);
-  text("Start", width/2-60, height/2+20);
+  textSize(40);
+  text("Start", width/2-40, height/2+15);
 }
 
 boolean overStart(){

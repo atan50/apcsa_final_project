@@ -7,7 +7,7 @@ public class Garden{
   }
   
   void screen(){  //draw screen
-    background(#8ff558);
+    image(myGarden,0,0);
     /*
     for(Flower f : garden){
       image(f.image);

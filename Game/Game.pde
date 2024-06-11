@@ -1,28 +1,46 @@
+PImage startScreen, shopScreen, theirGarden, myGarden;
+PImage flower, deadflower, sapling;
 int days, totalDays, level;
-//Garden garden;
+Shop shop;
+Garden garden;
 //Objective objectives;
 //Objective currObj;
 String activeScreen;
-int waterPoints, points, targetPoints;
+String activeGarden;
+int waterPoints0, points0, targetPoints0;
+int tempPurchase;
 
 void setup(){
-  size(1000,600);
-  waterPoints = 3;
-  targetPoints = 50;
+  size(900,600);
+  level = 1;
+  waterPoints0 = 3;
+  points0 = 3;
+  targetPoints0 = 50;
   activeScreen = "Start";
+  activeGarden = "Personal";
+  shop = new Shop();
+  garden = new Garden();
+  startScreen = loadImage("pixil-frame-0.png");
+  myGarden = loadImage("cleangarden.png");
+  theirGarden = loadImage("messygarden.png");
+  shopScreen = loadImage("shop.jpg");
+  flower = loadImage("flower.png");
+  deadflower = loadImage("deadflower.png");
+  sapling = loadImage("sapling.png");
+  
 }
 
 void draw(){
   
  
   if(activeScreen.equals("Start")){
+    image(startScreen, 0, 0);
     startButton(width/2, height/2);
     if(startPressed()){
-      activeScreen = "Garden";
+      activeScreen = "Personal";
     }
   }
-  if(activeScreen.equals("Garden")){
-    Garden garden = new Garden();
+  if(activeScreen.equals("Personal")){
     garden.screen();
     displayCurrency();
     shopButton(width, height);
@@ -40,9 +58,21 @@ void draw(){
     if(){ //nextDay button pressed
       Flower.update(currObj.garden);
     }*/
-  }
+  } 
   if(activeScreen.equals("Shop")){
-    background(#59f0c7);
+    shop.screen();
+    if(shop.exitShop()){
+      activeScreen = activeGarden;
+    }
+    if(mousePressed){
+      tempPurchase = shop.itemPurchased();
+      if(tempPurchase == -1){
+        tempPurchase = 0;
+      }
+      else{
+        activeScreen = activeGarden;
+      }
+    }
   }
   
 }
@@ -54,14 +84,14 @@ void startButton(int x, int y){
   }
   stroke(#d19c08);
   strokeWeight(5);
-  rect(x-250,y-50,500,100,25);
+  rect(x-150,y-30,300,60,25);
   fill(#4a3807);
-  textSize(60);
-  text("Start", width/2-60, height/2+20);
+  textSize(40);
+  text("Start", width/2-40, height/2+12);
 }
 
 boolean overStart(){
-  if(mouseX >= 250 && mouseX <= 750 && mouseY >= 250 && mouseY <= 350){
+  if(mouseX >= 300 && mouseX <= 600 && mouseY >= 280 && mouseY <= 330){
     return true;
   }
   return false;
@@ -69,7 +99,7 @@ boolean overStart(){
 
 boolean startPressed(){
   if(mousePressed){
-    if(mouseX >= 250 && mouseX <= 750 && mouseY >= 250 && mouseY <= 350){
+    if(mouseX >= 300 && mouseX <= 600 && mouseY >= 280 && mouseY <= 330){
       return true;
     }
   }
@@ -83,8 +113,8 @@ void displayCurrency(){
   rect(-30, -30, 180, 150, 25);
   fill(#0a0a0a);
   textSize(20);
-  text("Water: "+waterPoints, 30, 40);
-  text("Coins: "+points, 30, 80);
+  text("Water: "+waterPoints0, 30, 40);
+  text("Coins: "+points0, 30, 80);
 }
 
 void shopButton(int x, int y){
@@ -94,15 +124,15 @@ void shopButton(int x, int y){
   }
   stroke(#d19c08);
   strokeWeight(5);
-  ellipse(x-100, y-90, 100, 100);
+  ellipse(x-80, y-70, 100, 100);
   fill(#4a3807);
   textSize(20);
-  text("Shop", width-120, height-84);
+  text("Shop", width-100, height-64);
 }
 
 boolean overShop(int diameter){
-  float disX = width-100 - mouseX;
-  float disY = height-90 - mouseY;
+  float disX = width-80 - mouseX;
+  float disY = height-70 - mouseY;
   if(sqrt(sq(disX) + sq(disY)) < diameter/2 ) {
     return true;
   }else{
@@ -111,8 +141,25 @@ boolean overShop(int diameter){
 }
 
 boolean shopPressed(){
-  if(keyPressed && overShop(100)){
+  if(mousePressed && overShop(100)){
     return true;
   }
   return false;
+}
+
+void update(Flower[][] g){
+  for(Flower f : g){
+    if(f.isAlive && !f.checkLife()){
+      f.isAlive = false;
+    }
+  }
+}
+
+void newPoints(Flower[][] g){
+  for(Flower f : g){
+    if(f.isAlive){
+      points0 += f.value;
+    }
+  }
+  waterPoints0 += level * 2 / 3 + 2;
 }

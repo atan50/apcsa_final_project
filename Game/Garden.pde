@@ -1,4 +1,3 @@
-
 public class Garden{
   
   //static Flower[][] garden;

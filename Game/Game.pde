@@ -6,13 +6,18 @@ Garden garden;
 //Objective objectives;
 //Objective currObj;
 String activeScreen;
+String activeGarden;
 int waterPoints0, points0, targetPoints0;
+int tempPurchase;
 
 void setup(){
   size(900,600);
+  level = 1;
   waterPoints0 = 3;
+  points0 = 3;
   targetPoints0 = 50;
   activeScreen = "Start";
+  activeGarden = "Personal";
   shop = new Shop();
   garden = new Garden();
   startScreen = loadImage("pixil-frame-0.png");
@@ -32,10 +37,10 @@ void draw(){
     image(startScreen, 0, 0);
     startButton(width/2, height/2);
     if(startPressed()){
-      activeScreen = "Garden";
+      activeScreen = "Personal";
     }
   }
-  if(activeScreen.equals("Garden")){
+  if(activeScreen.equals("Personal")){
     garden.screen();
     displayCurrency();
     shopButton(width, height);
@@ -53,23 +58,24 @@ void draw(){
     if(){ //nextDay button pressed
       Flower.update(currObj.garden);
     }*/
-  }
+  } 
   if(activeScreen.equals("Shop")){
     shop.screen();
+    if(shop.exitShop()){
+      activeScreen = activeGarden;
+    }
+    if(mousePressed){
+      tempPurchase = shop.itemPurchased();
+      if(tempPurchase == -1){
+        tempPurchase = 0;
+      }
+      else{
+        activeScreen = activeGarden;
+      }
+    }
   }
   
 }
-
-/*
-void newPoints(){
-  for(Flower f : currObj.clientGarden){
-    if(f.isAlive){
-      points += f.value;
-    }
-  }
-  waterPoints += level * 2 / 3 + 2;
-}
-*/
 
 void startButton(int x, int y){
   fill(#fcba03);
@@ -139,4 +145,21 @@ boolean shopPressed(){
     return true;
   }
   return false;
+}
+
+void update(Flower[][] g){
+  for(Flower f : g){
+    if(f.isAlive && !f.checkLife()){
+      f.isAlive = false;
+    }
+  }
+}
+
+void newPoints(Flower[][] g){
+  for(Flower f : g){
+    if(f.isAlive){
+      points0 += f.value;
+    }
+  }
+  waterPoints0 += level * 2 / 3 + 2;
 }

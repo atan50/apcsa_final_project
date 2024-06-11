@@ -148,17 +148,21 @@ boolean shopPressed(){
 }
 
 void update(Flower[][] g){
-  for(Flower f : g){
-    if(f.isAlive && !f.checkLife()){
-      f.isAlive = false;
+  for(Flower[] arr : g){
+    for(Flower f : arr){
+      if(f.isAlive && !f.checkLife()){
+        f.isAlive = false;
+      }
     }
   }
 }
 
 void newPoints(Flower[][] g){
-  for(Flower f : g){
-    if(f.isAlive){
-      points0 += f.value;
+  for(Flower[] arr : g){
+      for(Flower f : arr){
+      if(f.isAlive){
+        points0 += f.value;
+      }
     }
   }
   waterPoints0 += level * 2 / 3 + 2;

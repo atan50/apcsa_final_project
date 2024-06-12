@@ -45,7 +45,6 @@ void draw(){
     garden.screen();
     displayCurrency();
     shopButton(width, height);
-    nextDayButton();
     if(shopPressed()){
       activeScreen = "Shop";
     }
@@ -152,19 +151,22 @@ boolean shopPressed(){
   return false;
 }
 
-void update(Flower[] g){
-  for(int i = 0; i < garden.gLength; i++){
-    g[i].lastWatered++;
-    if(g[i].isAlive && !g[i].checkLife()){
-      g[i].isAlive = false;
+void update(Flower[][] g){
+  for(Flower[] arr : g){
+    for(Flower f : arr){
+      if(f.isAlive && !f.checkLife()){
+        f.isAlive = false;
+      }
     }
   }
 }
 
-void newPoints(Flower[] g){
-  for(int i = 0; i < garden.gLength; i++){
-    if(g[i].isAlive){
-      points0 += g[i].value;
+void newPoints(Flower[][] g){
+  for(Flower[] arr : g){
+      for(Flower f : arr){
+      if(f.isAlive){
+        points0 += f.value;
+      }
     }
   }
   waterPoints0 += level * 2 / 3 + 2;
@@ -223,31 +225,4 @@ void plantFlower(){
      }
    }
  }
-}
-
-
-void nextDayButton(){
-  fill(#fcba03);
-  if(overNextDay()){
-    fill(#fcca3f);
-  }
-  stroke(#d19c08);
-  strokeWeight(5);
-  rect(width/2-150, height-55,300,45,25);
-  fill(#4a3807);
-  text("Next Day", width/2-40, height-25);
-}
-
-boolean overNextDay(){
-  if(mouseX >= 300 && mouseX <= 600 && mouseY >= 545 && mouseY <= 590){
-    return true;
-  }
-  return false;
-}
-
-boolean nextDayPressed(){
-  if(mousePressed && overNextDay()){
-    return true;
-  }
-  return false;
 }

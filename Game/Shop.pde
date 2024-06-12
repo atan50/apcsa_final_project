@@ -33,7 +33,7 @@ public class Shop{
      text("X", 841, 64);
      fill(#ffffff);
      textSize(15);
-     text("Type the corresponding Shop Key to Purchase", 330, 585);
+     //text("Type the corresponding Shop Key to Purchase", 330, 585);
      
      for(int r = 0; r < 2; r++){
        //tempY = 220 + 163 * r;

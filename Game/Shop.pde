@@ -6,7 +6,7 @@ public class Shop{
   int itemY;
   
   Flower tempDaisy = new Daisy();
-  Flower tempHydrangea = new Hydrangea();
+  Flower tempHyrdrangea = new Hyrdrangea();
   Flower tempLily = new Lily();
   Flower tempOrchid = new Orchid();
   Flower tempRose = new Rose();

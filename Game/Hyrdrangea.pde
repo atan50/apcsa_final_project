@@ -1,4 +1,4 @@
-class Hydrangea extends Flower{
+class Hyrdrangea extends Flower{
   
   {
     image = loadImage("flowerpics/hyrdrangea.png");

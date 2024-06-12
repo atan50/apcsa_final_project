@@ -14,7 +14,7 @@ public class Shop{
   Flower tempTulip = new Tulip();
   Flower tempViolet = new Violet();
   
-  Flower[] temps = {tempDaisy, tempHydrangea, tempLily, tempOrchid, tempRose, tempSunflower, tempTulip, tempViolet};
+  Flower[] temps = {tempDaisy, tempHyrdrangea, tempLily, tempOrchid, tempRose, tempSunflower, tempTulip, tempViolet};
   
    void Shop(){};
    

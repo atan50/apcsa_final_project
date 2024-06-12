@@ -22,7 +22,7 @@ public class Garden{
     image(myGarden,0,0);
     
     for(int i = 0; i < gLength; i++){
-      image(garden[i].image, 115 + 96 * coord[i][1], 112 + 96 * coord[i][0]);
+      image(garden[i].image, 115 + 96 * coord[i][1], 82 + 96 * coord[i][0]);
     }
     
     /*
@@ -50,7 +50,7 @@ public class Garden{
       garden[gLength] = new Daisy();
     }
     if(id == 1){
-      garden[gLength] = new Hydrangea();
+      garden[gLength] = new Hyrdrangea();
     }
     if(id == 2){
       garden[gLength] = new Lily();

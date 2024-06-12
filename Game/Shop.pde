@@ -5,16 +5,16 @@ public class Shop{
   int itemX;
   int itemY;
   
-  //Flower tempDaisy = new Daisy();
-  //Flower tempHydrangea = new Hydrangea();
-  //Flower tempLily = new Lily();
-  //Flower tempOrchid = new Orchid();
-  //Flower tempRose = new Rose();
-  //Flower tempSunflower = new Sunflower();
-  //Flower tempTulip = new Tulip();
-  //Flower tempViolet = new Violet();
+  Flower tempDaisy = new Daisy();
+  Flower tempHydrangea = new Hydrangea();
+  Flower tempLily = new Lily();
+  Flower tempOrchid = new Orchid();
+  Flower tempRose = new Rose();
+  Flower tempSunflower = new Sunflower();
+  Flower tempTulip = new Tulip();
+  Flower tempViolet = new Violet();
   
-  //Flower[] temps = {tempDaisy, tempHydrangea, tempLily, tempOrchid, tempRose, tempSunflower, tempTulip, tempViolet};
+  Flower[] temps = {tempDaisy, tempHydrangea, tempLily, tempOrchid, tempRose, tempSunflower, tempTulip, tempViolet};
   
    void Shop(){};
    
@@ -42,7 +42,8 @@ public class Shop{
          //tempX = 170 + 144 * c;
          //rect(tempX, tempY, 128, 140, 20);
          itemX = 188 + 144 * c;
-         image(flower, itemX, itemY);
+         int tempKey = (r * 4) + c;
+         image(temps[tempKey].image, itemX, itemY);
        }
      }
      
@@ -63,19 +64,20 @@ public class Shop{
    }
    
    int itemPurchased(){
-     //if(activeGarden.equals("Personal")){
-     //  for(int r = 0; r < 2; r++){
-     //    if(mouseY >= 220 + 163 * r && mouseY <= 360 + 163 * r){
-     //      for(int c = 0; c < 4; c++){
-     //        if(mouseX >= 170 + 144 * c && mouseX <= 298 + 144 * c){
-     //          int tempKey = (r * 4) + (c + 1);
-     //          if(level >= temps[tempKey].minLevel && points0 >= temps[tempKey].cost){
-     //            return tempKey;
-     //          }
-     //        }
-     //      }
-     //    }
-     //  }
+     if(activeGarden.equals("Personal")){
+       for(int r = 0; r < 2; r++){
+         if(mouseY >= 220 + 163 * r && mouseY <= 360 + 163 * r){
+           for(int c = 0; c < 4; c++){
+             if(mouseX >= 170 + 144 * c && mouseX <= 298 + 144 * c){
+               int tempKey = (r * 4) + c;
+               if(level >= temps[tempKey].minLevel && points0 >= temps[tempKey].cost){
+                 delay(200);
+                 return tempKey;
+               }
+             }
+           }
+         }
+       }
        /*
        if(key == 1){
          if(level >= tempDaisy.minLevel && points0 >= tempDaisy.cost){
@@ -118,7 +120,7 @@ public class Shop{
          }
        }
        */
+     }
      return -1;
-   }
-  
+  }
 }

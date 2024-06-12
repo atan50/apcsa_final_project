@@ -1,7 +1,7 @@
 class Hydrangea extends Flower{
   
   {
-    image = loadImage("apcsa_final_project/flowerpics/hydrangea.png");
+    image = loadImage("flowerpics/hyrdrangea.png");
     minLevel = 2;
     cost = 6;
     value = 2;

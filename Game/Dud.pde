@@ -1,0 +1,3 @@
+class Dud extends Flower{
+  
+}

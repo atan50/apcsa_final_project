@@ -16,10 +16,11 @@ void setup(){
   waterPoints0 = 3;
   points0 = 3;
   targetPoints0 = 50;
-  activeScreen = "Start";
+  activeScreen = "Shop";
   activeGarden = "Personal";
   shop = new Shop();
   garden = new Garden();
+  tempPurchase = -1;
   startScreen = loadImage("pixil-frame-0.png");
   myGarden = loadImage("cleangarden.png");
   theirGarden = loadImage("messygarden.png");
@@ -46,6 +47,9 @@ void draw(){
     shopButton(width, height);
     if(shopPressed()){
       activeScreen = "Shop";
+    }
+    if(mousePressed){
+      plantFlower();
     }
     /*
     if(){ //nextDay button pressed
@@ -110,11 +114,11 @@ void displayCurrency(){
   fill(#c5faf0);
   stroke(#3bedcd);
   strokeWeight(10);
-  rect(-30, -30, 180, 150, 25);
+  rect(-30, -30, 180, 100, 25);
   fill(#0a0a0a);
   textSize(20);
-  text("Water: "+waterPoints0, 30, 40);
-  text("Coins: "+points0, 30, 80);
+  text("Water: "+waterPoints0, 30, 25);
+  text("Coins: "+points0, 30, 50);
 }
 
 void shopButton(int x, int y){
@@ -166,4 +170,59 @@ void newPoints(Flower[][] g){
     }
   }
   waterPoints0 += level * 2 / 3 + 2;
+}
+
+void plantFlower(){
+  /*
+  strokeWeight(0);
+  int startX;
+  int startY;
+  for(int r = 0; r < 4; r++){
+    startY = 108 + 96 * r;
+    for(int c = 0; c < 7; c++){
+      startX = 114 + 96 * c;
+      rect(startX, startY, 96, 96);
+    }
+  }
+  */
+  for(int r = 0; r < 4; r++){
+   if(mouseY >= 108 + 96 * r && mouseY < 204 + 96 * r){
+     for(int c = 0; c < 7; c++){
+       if(mouseX >= 114 + 96 * c && mouseX < 210 + 96 * c){
+         /*
+          if(tempPurchase == 0){
+            garden.addFlower(r, c, new Daisy());
+          }
+          if(tempPurchase == 1){
+            garden.addFlower(r, c, new Hydrangea());
+          }
+          if(tempPurchase == 2){
+            garden.addFlower(r, c, new Lily());
+          }
+          if(tempPurchase == 3){
+            garden.addFlower(r, c, new Orchid());
+          }
+          if(tempPurchase == 4){
+            garden.addFlower(r, c, new Rose());
+          }
+          if(tempPurchase == 5){
+            garden.addFlower(r, c, new Sunflower());
+          }
+          if(tempPurchase == 6){
+            garden.addFlower(r, c, new Tulip());
+          }
+          if(tempPurchase == 7){
+            garden.addFlower(r, c, new Violet());
+          }
+          */
+          if(tempPurchase >= 0 && tempPurchase < 8){
+            garden.addFlower(r, c, tempPurchase);
+            points0 -= shop.temps[tempPurchase].cost;
+            tempPurchase = -1;
+            break;
+          }
+       }
+     }
+   }
+ }
 }

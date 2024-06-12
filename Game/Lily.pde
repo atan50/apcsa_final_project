@@ -1,7 +1,7 @@
 class Lily extends Flower{
   
   {
-    image = loadImage("apcsa_final_project/flowerpics/lily.png");
+    image = loadImage("flowerpics/lily.png");
     minLevel = 4;
     cost = 14;
     value = 3;

@@ -429,7 +429,7 @@ void statusScreen(){
     text("No plants yet!\nCome back when you've made progress!!", 20, 40);
   }
   for(int i = 0; i < garden.gLength; i++){
-    text("Water Value of Plant in Row "+garden.coord[i][0]+", Column "+garden.coord[i][0]+": ", 20, 40 + 20 * i);
+    text("Water Value of Plant in Row "+(garden.coord[i][1]+1)+", Column "+(garden.coord[i][0]+1)+": ", 20, 40 + 20 * i);
     if(garden.garden[i].waterValue <= garden.garden[i].thrist){
       fill(#fc0800);
     }

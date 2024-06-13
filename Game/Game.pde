@@ -3,8 +3,6 @@ PImage flower, deadflower, sapling;
 int days, level;
 Shop shop;
 Garden garden;
-//Objective objectives;
-//Objective currObj;
 String activeScreen;
 String activeGarden;
 int waterPoints0, points0, targetPoints0;
@@ -16,7 +14,7 @@ void setup(){
   waterPoints0 = 3;
   points0 = 5;
   targetPoints0 = 50;
-  activeScreen = "Complete";
+  activeScreen = "Start";
   activeGarden = "Personal";
   shop = new Shop();
   garden = new Garden();

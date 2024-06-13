@@ -15,7 +15,7 @@ void setup(){
   size(900,600);
   level = 1;
   waterPoints0 = 3;
-  points0 = 3;
+  points0 = 5;
   targetPoints0 = 50;
   activeScreen = "Start";
   activeGarden = "Personal";
@@ -52,7 +52,7 @@ void draw(){
     waterButton(10, 180, 1);
     waterButton(10, 270, 2);
     waterButton(10, 360, 3);
-    removeButton(10, 545);
+
     statusButton();
     
     if(waterPressed1()){
@@ -71,12 +71,6 @@ void draw(){
       spendWater = 3;
     }
     
-    if(removePressed()){
-      tempPurchase = -1;
-      spendWater = 0;
-      remove = true;
-    }
-    
     if(mousePressed && spendWater > 0 && spendWater <= waterPoints0){
       waterPlant();
       delay(50);
@@ -86,9 +80,7 @@ void draw(){
       plantFlower();
     }
     
-    if(mousePressed && remove == true){
-      removePlant();
-    }
+
     
     if(nextDayPressed()){ //nextDay button pressed
       update(garden.garden);
@@ -215,16 +207,16 @@ void update(Flower[] g){
     if(days == 9){
       level = 4;
     }
-    if(days == 12){
+    if(days == 15){
       level = 5;
     }
-    if(days == 15){
+    if(days == 20){
       level = 6;
     }
-    if(days == 16){
+    if(days == 25){
       level = 7;
     }
-    if(days == 18){
+    if(days == 30){
       level = 8;
     }
   }
@@ -243,13 +235,13 @@ void newPoints(Flower[] g){
     waterPoints0 += 3;
   }
   if(level == 3){
-    waterPoints0 += 5;
+    waterPoints0 += 6;
   }
   if(level == 4){
-    waterPoints0 += 7;
+    waterPoints0 += 9;
   }
   if(level >= 5){
-    waterPoints0 += 10;
+    waterPoints0 += 12;
   }
 }
 
@@ -382,7 +374,7 @@ void waterPlant(){
      for(int c = 0; c < 7; c++){
        if(mouseX >= 114 + 96 * c && mouseX < 210 + 96 * c){
          for(int i = 0; i < 28; i++){
-           if(garden.coord[i][0] == r && garden.coord[i][1] == c){
+           if(garden.coord[i][1] == r && garden.coord[i][0] == c){
              garden.garden[i].waterValue += spendWater;
              waterPoints0 -= spendWater;
              break;
@@ -434,41 +426,5 @@ void statusScreen(){
     }
     text(""+garden.garden[i].waterValue, 370, 40 + 20 * i);
     fill(#ffffff);
-  }
-}
-
-void removeButton(int x, int y){
-  fill(#fc0800);
-  stroke(#8a0601);
-  strokeWeight(5);
-  rect(x, y, 85, 45, 25);
-  fill(#8a0601);
-  textSize(20);
-  text("Remove", x+8, y+28);
-}
-
-boolean removePressed(){
-  if(mousePressed && mouseX >= 10 && mouseX <= 95 && mouseY >= 545 && mouseY <= 590){
-    return true;
-  }
-  return false;
-}
-
-void removePlant(){
-for(int r = 0; r < 4; r++){
-   if(mouseY >= 108 + 96 * r && mouseY < 204 + 96 * r){
-     for(int c = 0; c < 7; c++){
-       if(mouseX >= 114 + 96 * c && mouseX < 210 + 96 * c){
-         for(int i = 0; i < 28; i++){
-           if(garden.coord[i][0] == r && garden.coord[i][1] == c){
-             if(!garden.garden[i].isAlive){
-               waterPoints0 -= spendWater;
-               break;
-             }
-           }
-         }
-       }
-     }
-   }
   }
 }

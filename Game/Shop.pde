@@ -43,7 +43,9 @@ public class Shop{
          //rect(tempX, tempY, 128, 140, 20);
          itemX = 188 + 144 * c;
          int tempKey = (r * 4) + c;
-         image(temps[tempKey].image, itemX, itemY);
+         if(level >= temps[tempKey].minLevel){
+           image(temps[tempKey].image, itemX, itemY);
+         }
        }
      }
      

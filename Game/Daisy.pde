@@ -2,10 +2,12 @@ class Daisy extends Flower{
   
   {
     image = loadImage("flowerpics/daisy.png");
+    isAlive = true;
+    waterValue = 5;
     minLevel = 1;
     cost = 3;
     value = 1;
-    waterNeed = 2;
+    thrist = 2;
   }
   
 }

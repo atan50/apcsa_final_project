@@ -1,6 +1,6 @@
 PImage startScreen, shopScreen, theirGarden, myGarden;
 PImage flower, deadflower, sapling;
-int days, totalDays, level;
+int days, level;
 Shop shop;
 Garden garden;
 //Objective objectives;
@@ -8,7 +8,8 @@ Garden garden;
 String activeScreen;
 String activeGarden;
 int waterPoints0, points0, targetPoints0;
-int tempPurchase;
+int tempPurchase, spendWater;
+boolean remove;
 
 void setup(){
   size(900,600);
@@ -21,6 +22,8 @@ void setup(){
   shop = new Shop();
   garden = new Garden();
   tempPurchase = -1;
+  spendWater = 0;
+  remove = false;
   startScreen = loadImage("pixil-frame-0.png");
   myGarden = loadImage("cleangarden.png");
   theirGarden = loadImage("messygarden.png");
@@ -46,37 +49,78 @@ void draw(){
     displayCurrency();
     shopButton(width, height);
     nextDayButton();
+    waterButton(10, 180, 1);
+    waterButton(10, 270, 2);
+    waterButton(10, 360, 3);
+    removeButton(10, 545);
+    statusButton();
+    
+    if(waterPressed1()){
+      tempPurchase = -1;
+      remove = false;
+      spendWater = 1;
+    }
+    if(waterPressed2()){
+      tempPurchase = -1;
+      remove = false;
+      spendWater = 2;
+    }
+    if(waterPressed3()){
+      tempPurchase = -1;
+      remove = false;
+      spendWater = 3;
+    }
+    
+    if(removePressed()){
+      tempPurchase = -1;
+      spendWater = 0;
+      remove = true;
+    }
+    
+    if(mousePressed && spendWater > 0 && spendWater <= waterPoints0){
+      waterPlant();
+      delay(50);
+    }
+    
+    if(mousePressed && tempPurchase > -1){
+      plantFlower();
+    }
+    
+    if(mousePressed && remove == true){
+      removePlant();
+    }
+    
+    if(nextDayPressed()){ //nextDay button pressed
+      update(garden.garden);
+      newPoints(garden.garden);
+      delay(50);
+    }
+    
     if(shopPressed()){
       activeScreen = "Shop";
     }
-    if(mousePressed){
-      plantFlower();
-    }
-    /*
-    if(){ //nextDay button pressed
-      Flower.update(Garden.garden);
+    if(statusPressed()){
+      activeScreen = "Status";
     }
   }
-  if(activeScreen.equals("Objective")){
-    
-    
-    if(){ //nextDay button pressed
-      Flower.update(currObj.garden);
-    }*/
-  } 
+  
   if(activeScreen.equals("Shop")){
     shop.screen();
     if(shop.exitShop()){
       activeScreen = activeGarden;
     }
-    if(mousePressed){
+    else if(mousePressed){
       tempPurchase = shop.itemPurchased();
-      if(tempPurchase == -1){
-        tempPurchase = 0;
-      }
-      else{
+      if(tempPurchase != -1){
         activeScreen = activeGarden;
       }
+    }
+  }
+  
+  if(activeScreen.equals("Status")){
+    statusScreen();
+    if(mousePressed){
+      activeScreen = "Personal";
     }
   }
   
@@ -112,14 +156,15 @@ boolean startPressed(){
 }
 
 void displayCurrency(){
-  fill(#c5faf0);
-  stroke(#3bedcd);
+  fill(#a3a3a3);
+  stroke(#0a0a0a);
   strokeWeight(10);
-  rect(-30, -30, 180, 100, 25);
+  rect(-30, -30, 140, 100, 25);
   fill(#0a0a0a);
   textSize(20);
-  text("Water: "+waterPoints0, 30, 25);
-  text("Coins: "+points0, 30, 50);
+  text("Water: "+waterPoints0, 16, 25);
+  text("Coins: "+points0, 16, 50);
+  text("Day: "+days, 805, 37.5);
 }
 
 void shopButton(int x, int y){
@@ -154,9 +199,33 @@ boolean shopPressed(){
 
 void update(Flower[] g){
   for(int i = 0; i < garden.gLength; i++){
-    g[i].lastWatered++;
+    days++;
+    g[i].age++;
+    g[i].waterValue -= g[i].thrist;
     if(g[i].isAlive && !g[i].checkLife()){
       g[i].isAlive = false;
+    }
+    
+    if(days == 3){
+      level = 2;
+    }
+    if(days == 6){
+      level = 3;
+    }
+    if(days == 9){
+      level = 4;
+    }
+    if(days == 12){
+      level = 5;
+    }
+    if(days == 15){
+      level = 6;
+    }
+    if(days == 16){
+      level = 7;
+    }
+    if(days == 18){
+      level = 8;
     }
   }
 }
@@ -167,7 +236,21 @@ void newPoints(Flower[] g){
       points0 += g[i].value;
     }
   }
-  waterPoints0 += level * 2 / 3 + 2;
+  if(level == 1){
+    waterPoints0 += 2;
+  }
+  if(level == 2){
+    waterPoints0 += 3;
+  }
+  if(level == 3){
+    waterPoints0 += 5;
+  }
+  if(level == 4){
+    waterPoints0 += 7;
+  }
+  if(level >= 5){
+    waterPoints0 += 10;
+  }
 }
 
 void plantFlower(){
@@ -214,7 +297,7 @@ void plantFlower(){
           }
           */
           if(tempPurchase >= 0 && tempPurchase < 8){
-            garden.addFlower(r, c, tempPurchase);
+            garden.addFlower(c, r, tempPurchase);
             points0 -= shop.temps[tempPurchase].cost;
             tempPurchase = -1;
             break;
@@ -250,4 +333,142 @@ boolean nextDayPressed(){
     return true;
   }
   return false;
+}
+
+void waterButton(int x, int y, int amt){
+  fill(#c5faf0);
+  stroke(#3bedcd);
+  strokeWeight(5);
+  rect(x, y, 75, 75, 25);
+  fill(#3bedcd);
+  textSize(20);
+  String amtStr = "";
+  if(amt==1){
+    amtStr = "  One";
+  }
+  if(amt==2){
+    amtStr = "  Two";
+  }
+  if(amt==3){
+    amtStr = "Three";
+  }
+  text("Water\n"+amtStr, x+12, y+34);
+}
+
+boolean waterPressed1(){
+  if(mousePressed && mouseX >= 10 && mouseX <= 85 && mouseY >= 180 && mouseY <= 255){
+    return true;
+  }
+  return false;
+}
+
+boolean waterPressed2(){
+  if(mousePressed && mouseX >= 10 && mouseX <= 85 && mouseY >= 270 && mouseY <= 345){
+    return true;
+  }
+  return false;
+}
+
+boolean waterPressed3(){
+  if(mousePressed && mouseX >= 10 && mouseX <= 85 && mouseY >= 360 && mouseY <= 435){
+    return true;
+  }
+  return false;
+}
+
+void waterPlant(){
+  for(int r = 0; r < 4; r++){
+   if(mouseY >= 108 + 96 * r && mouseY < 204 + 96 * r){
+     for(int c = 0; c < 7; c++){
+       if(mouseX >= 114 + 96 * c && mouseX < 210 + 96 * c){
+         for(int i = 0; i < 28; i++){
+           if(garden.coord[i][0] == r && garden.coord[i][1] == c){
+             garden.garden[i].waterValue += spendWater;
+             waterPoints0 -= spendWater;
+             break;
+           }
+         }
+       }
+     }
+   }
+  }
+}
+
+void statusButton(){
+  fill(#21bf4b);
+  if(overStatus()){
+    fill(#28de58);
+  }
+  stroke(#147d30);
+  strokeWeight(5);
+  rect(width/2-115, 22,230,45,25);
+  fill(#147d30);
+  text("Check Flower Status", width/2-84, 52);
+}
+
+boolean overStatus(){
+  if(mouseX >= 335 && mouseX <= 565 && mouseY >= 22 && mouseY <= 67){
+    return true;
+  }
+  return false;
+}
+
+boolean statusPressed(){
+  if(mousePressed && overStatus()){
+    return true;
+  }
+  return false;
+}
+
+void statusScreen(){
+  background(#a3a3a3);
+  fill(#ffffff);
+  textSize(20);
+  if(garden.gLength == 0){
+    text("No plants yet!\nCome back when you've made progress!!", 20, 40);
+  }
+  for(int i = 0; i < garden.gLength; i++){
+    text("Water Value of Plant in Row "+garden.coord[i][0]+", Column "+garden.coord[i][0]+": ", 20, 40 + 20 * i);
+    if(garden.garden[i].waterValue <= garden.garden[i].thrist){
+      fill(#fc0800);
+    }
+    text(""+garden.garden[i].waterValue, 370, 40 + 20 * i);
+    fill(#ffffff);
+  }
+}
+
+void removeButton(int x, int y){
+  fill(#fc0800);
+  stroke(#8a0601);
+  strokeWeight(5);
+  rect(x, y, 85, 45, 25);
+  fill(#8a0601);
+  textSize(20);
+  text("Remove", x+8, y+28);
+}
+
+boolean removePressed(){
+  if(mousePressed && mouseX >= 10 && mouseX <= 95 && mouseY >= 545 && mouseY <= 590){
+    return true;
+  }
+  return false;
+}
+
+void removePlant(){
+for(int r = 0; r < 4; r++){
+   if(mouseY >= 108 + 96 * r && mouseY < 204 + 96 * r){
+     for(int c = 0; c < 7; c++){
+       if(mouseX >= 114 + 96 * c && mouseX < 210 + 96 * c){
+         for(int i = 0; i < 28; i++){
+           if(garden.coord[i][0] == r && garden.coord[i][1] == c){
+             if(!garden.garden[i].isAlive){
+               waterPoints0 -= spendWater;
+               break;
+             }
+           }
+         }
+       }
+     }
+   }
+  }
 }

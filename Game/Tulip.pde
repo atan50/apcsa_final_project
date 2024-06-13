@@ -2,10 +2,11 @@ class Tulip extends Flower{
   
   {
     image = loadImage("flowerpics/tulip.png");
-    minLevel = 6;
+    isAlive = true;
+    minLevel = 5;
     cost = 40;
     value = 5;
-    waterNeed = 3;
+    thrist = 2;
   }
   
 }

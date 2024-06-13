@@ -22,7 +22,15 @@ public class Garden{
     image(myGarden,0,0);
     
     for(int i = 0; i < gLength; i++){
-      image(garden[i].image, 115 + 96 * coord[i][1], 82 + 96 * coord[i][0]);
+      if(garden[i].isAlive == false){
+        image(deadflower, 115 + 96 * coord[i][0], 106 + 96 * coord[i][1]);
+      }
+      else if(garden[i].age < 2){
+        image(sapling, 115 + 96 * coord[i][0], 106 + 96 * coord[i][1]);
+      }
+      else{
+        image(garden[i].image, 115 + 96 * coord[i][0], 82 + 96 * coord[i][1]);
+      }
     }
     
     /*

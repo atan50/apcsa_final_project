@@ -1,4 +1,4 @@
-PImage startScreen, shopScreen, theirGarden, myGarden;
+PImage startScreen, shopScreen, myGarden;
 PImage flower, deadflower, sapling;
 int days, level;
 Shop shop;
@@ -22,7 +22,6 @@ void setup(){
   spendWater = 0;
   startScreen = loadImage("pixil-frame-0.png");
   myGarden = loadImage("cleangarden.png");
-  theirGarden = loadImage("messygarden.png");
   shopScreen = loadImage("shop.jpg");
   flower = loadImage("flower.png");
   deadflower = loadImage("deadflower.png");
@@ -163,7 +162,8 @@ void displayCurrency(){
   textSize(20);
   text("Water: "+waterPoints0, 16, 25);
   text("Coins: "+points0, 16, 50);
-  text("Day: "+days, 805, 37.5);
+  text("Level: "+level, 805, 37.5);
+  text("Day: "+days, 805, 60);
 }
 
 void shopButton(int x, int y){

@@ -9,7 +9,6 @@ String activeScreen;
 String activeGarden;
 int waterPoints0, points0, targetPoints0;
 int tempPurchase, spendWater;
-boolean remove;
 
 void setup(){
   size(900,600);
@@ -17,13 +16,12 @@ void setup(){
   waterPoints0 = 3;
   points0 = 5;
   targetPoints0 = 50;
-  activeScreen = "Start";
+  activeScreen = "Complete";
   activeGarden = "Personal";
   shop = new Shop();
   garden = new Garden();
   tempPurchase = -1;
   spendWater = 0;
-  remove = false;
   startScreen = loadImage("pixil-frame-0.png");
   myGarden = loadImage("cleangarden.png");
   theirGarden = loadImage("messygarden.png");
@@ -52,22 +50,20 @@ void draw(){
     waterButton(10, 180, 1);
     waterButton(10, 270, 2);
     waterButton(10, 360, 3);
+    endButton(10, 545);
 
     statusButton();
     
     if(waterPressed1()){
       tempPurchase = -1;
-      remove = false;
       spendWater = 1;
     }
     if(waterPressed2()){
       tempPurchase = -1;
-      remove = false;
       spendWater = 2;
     }
     if(waterPressed3()){
       tempPurchase = -1;
-      remove = false;
       spendWater = 3;
     }
     
@@ -79,8 +75,6 @@ void draw(){
     if(mousePressed && tempPurchase > -1){
       plantFlower();
     }
-    
-
     
     if(nextDayPressed()){ //nextDay button pressed
       update(garden.garden);
@@ -94,6 +88,11 @@ void draw(){
     if(statusPressed()){
       activeScreen = "Status";
     }
+    
+    if(endPressed()){
+      activeScreen = "Game Over";
+    }
+    
   }
   
   if(activeScreen.equals("Shop")){
@@ -114,6 +113,16 @@ void draw(){
     if(mousePressed){
       activeScreen = "Personal";
     }
+  }
+  
+  if(activeScreen.equals("Game Over")){
+    image(startScreen, 0, 0);
+    gameOverButton(width/2, height/2);
+  }
+  
+  if(activeScreen.equals("Complete")){
+    image(startScreen, 0, 0);
+    completeButton(width/2, height/2);
   }
   
 }
@@ -218,7 +227,9 @@ void update(Flower[] g){
     }
     if(days == 30){
       level = 8;
+      activeScreen = "Complete";
     }
+    
   }
 }
 
@@ -427,4 +438,47 @@ void statusScreen(){
     text(""+garden.garden[i].waterValue, 370, 40 + 20 * i);
     fill(#ffffff);
   }
+}
+
+void endButton(int x, int y){
+  fill(#fc0800);
+  stroke(#8a0601);
+  strokeWeight(5);
+  rect(x, y, 85, 45, 25);
+  fill(#8a0601);
+  textSize(20);
+  text("End", x+24, y+28);
+}
+
+boolean endPressed(){
+  if(mousePressed && mouseX >= 10 && mouseX <= 95 && mouseY >= 545 && mouseY <= 590){
+    return true;
+  }
+  return false;
+}
+
+void endGame(){
+
+}
+
+void gameOverButton(int x, int y){
+  fill(#fc0800);
+  stroke(#8a0601);
+  strokeWeight(5);
+  rect(x-150,y-30,300,60,25);
+  fill(#8a0601);
+  textSize(40);
+  text("Game Over", width/2-90, height/2+12);
+}
+
+void completeButton(int x, int y){
+  fill(#fcba03);
+  stroke(#d19c08);
+  strokeWeight(5);
+  rect(x-150,y-30,300,60,25);
+  rect(x-150,y+60,160,60,25);
+  fill(#4a3807);
+  textSize(40);
+  text("Congratulations", width/2-136, height/2+12);
+  text("Score: "+points0, width/2-136, height/2+102);
 }
